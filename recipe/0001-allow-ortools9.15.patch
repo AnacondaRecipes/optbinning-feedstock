@@ -1,0 +1,13 @@
+diff --git a/setup.py b/setup.py
+index 3c90bbc..05f2202 100644
+--- a/setup.py
++++ b/setup.py
+@@ -35,7 +35,7 @@ class CleanCommand(Command):
+ install_requires = [
+     'matplotlib',
+     'numpy>=1.16.1',
+-    'ortools>=9.4,<9.12',
++    'ortools>=9.4,<=9.15',
+     'pandas',
+     'ropwr>=1.0.0',
+     'scikit-learn>=1.0.2',

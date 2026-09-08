@@ -1,33 +1,32 @@
-About <pkg_name>-feedstock
+About optbinning-feedstock
 =======================
 
 Feedstock license: [BSD-3-Clause](LICENSE)
 
-Home: <home_url>
+Home: https://github.com/guillermo-navas-palencia/optbinning
 
-Package license: <pkg_license>
+Package license: Apache-2.0
 
-Summary: <pkg_summary>
-
+Summary: OptBinning: The Python Optimal Binning library
 
 Current release info
 ====================
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-<pkg_name>-green.svg)](https://anaconda.org/anaconda/<pkg_name>) | [![Conda Downloads](https://img.shields.io/conda/dn/anaconda/<pkg_name>.svg)](https://anaconda.org/anaconda/<pkg_name>) | [![Conda Version](https://img.shields.io/conda/vn/anaconda/<pkg_name>.svg)](https://anaconda.org/anaconda/<pkg_name>) | [![Conda Platforms](https://img.shields.io/conda/pn/anaconda/<pkg_name>.svg)](https://anaconda.org/anaconda/<pkg_name>) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-optbinning-green.svg)](https://anaconda.org/anaconda/optbinning) | [![Conda Downloads](https://img.shields.io/conda/dn/anaconda/optbinning.svg)](https://anaconda.org/anaconda/optbinning) | [![Conda Version](https://img.shields.io/conda/vn/anaconda/optbinning.svg)](https://anaconda.org/anaconda/optbinning) | [![Conda Platforms](https://img.shields.io/conda/pn/anaconda/optbinning.svg)](https://anaconda.org/anaconda/optbinning) |
 
-Installing <pkg_name>
+Installing optbinning
 ==================
 
-Installing `<pkg_name>` from the main channel can be achieved by:
+Installing `optbinning` from the main channel can be achieved by:
 
-```
-conda install <pkg_name>
+```bash
+conda install optbinning
 ```
 
-It is possible to list all of the versions of `<pkg_name>` available on your platform with `conda`:
+It is possible to list all of the versions of `optbinning` available on your platform with `conda`:
 
-```
-conda search <pkg_name>
+```bash
+conda search optbinning
 ```
