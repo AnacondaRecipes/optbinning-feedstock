@@ -24,7 +24,7 @@ requirements:
   run:
     - python
     - matplotlib-base
-    - numpy {{ numpy }}
+    - numpy >=1.16.1
     - ortools-python >=9.15
     - pandas
     - ropwr >=1.0.0
