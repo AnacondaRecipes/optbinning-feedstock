@@ -1,5 +1,5 @@
 {% set name = "optbinning" %}
-{% set version = "0.20.1" %}
+{% set version = "1.0.0" %}
 
 package:
   name: {{ name }}
@@ -7,54 +7,35 @@ package:
 
 source:
   url: https://github.com/guillermo-navas-palencia/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 8c6d9e0a3731448ce41e99687d221bfc40eb9c753d44ba1fe2cc86bcd6a4573a
+  sha256: d80e2b2c75c53fb4eba7011e129ebfb0e0beba344cf772aa7f0d86d6c1edf45e
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  # The OR-Tools dependency versions below 9.12 support Python only up to version 3.12.
-  # The OR-Tools dependency supports Windows shared libraries only from version 9.12 onward.
-  skip: true  # [win or py<37 or py>312]
+  # Upstream supports Python 3.11-3.13
+  skip: true  # [py<311 or py>313]
 
 requirements:
   host:
     - python
     - pip
-    - setuptools
+    - setuptools >=77
     - wheel
   run:
     - python
     - matplotlib-base
     - numpy {{ numpy }}
-    - ortools-python >=9.4,<9.12
+    - ortools-python >=9.15
     - pandas
     - ropwr >=1.0.0
-    - scikit-learn >=1.0.2
+    - scikit-learn >=1.6.0
     - scipy >=1.6.0
-    # CVXPY 1.7.3 aborts in native cvxcore on osx-arm64/Python 3.10;
-    # pin to the latest working 1.7.x release available for this environment.
-    - cvxpy <1.7.3 # [osx and py==310]
 
-# Test modules load the remote Boston Housing dataset during collection, which returns HTTP 403.
-{% set ignored_tests = "--ignore=tests/test_continuous_binning.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_continuous_binning_2d.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_continuous_binning_piecewise.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_outlier.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_counterfactual.py" %}
-
-# optbinning 0.20.1 uses scikit-learn's removed force_all_finite keyword.
-# Ignore test modules exercising the affected validation path until upstream compatibility is restored.
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_binning.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_binning_2d.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_binning_process.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_binning_process_sketch.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_binning_piecewise.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_binning_scenarios.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_binning_sketch.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_multiclass_binning.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_scorecard.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_scorecard_monitoring.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_scorecard_plots.py" %}
+# The optional tdigest dependency is not available in Anaconda channels.
+# Deselect tests that explicitly exercise the t-digest sketch implementation.
+{% set deselected_tests = "--deselect=tests/test_binning_process_sketch.py::test_default_tdigest_merge" %}
+{% set deselected_tests = deselected_tests + " --deselect=tests/test_binning_sketch.py::test_numerical_default_tdigest" %}
+{% set deselected_tests = deselected_tests + " --deselect=tests/test_binning_sketch.py::test_numerical_default_tdigest_merge" %}
 
 test:
   source_files:
@@ -64,11 +45,12 @@ test:
   requires:
     - pip
     - pytest
+    - pyarrow
     - pympler
     - ecos
   commands:
     - pip check
-    - pytest -v {{ ignored_tests }} tests
+    - pytest -v {{ deselected_tests }} tests
 
 about:
   home: https://github.com/guillermo-navas-palencia/optbinning
